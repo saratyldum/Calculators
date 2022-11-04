@@ -32,6 +32,10 @@
 			}
 		},
 
+		created() {
+			window.addEventListener('keyup', this.handleKeyup)
+		},
+
 		computed: {
 			firstValueAsNumber() {
 				return Number(this.firstValue)
@@ -60,7 +64,8 @@
 						this.secondValue *= this.firstValueAsNumber;
 						break;
 					case '%':
-						// this.secondValue = Number(this.firstValue) / 100;
+						this.secondValue = this.firstValueAsNumber / 100;
+						break;
 					default:
 						this.secondValue = this.firstValueAsNumber;
 					}
@@ -86,6 +91,38 @@
 				this.calculate()
 				this.firstValue = ''
 			},
+
+			handleKeyup(event) {
+				switch(event.key) {
+					case '0':
+					case '1':
+					case '2':
+					case '3':
+					case '4':
+					case '5':
+					case '6':
+					case '7':
+					case '8':
+					case '9':
+					case '.':
+						this.handleNumberClicked(event.key);
+						break;
+					case '+':
+					case '-':
+					case '/':
+					case '*':
+						this.handleOperatorClicked(event.key);
+						break;
+					case 'Enter':
+					case '=':
+						this.handleEqualsInput();
+						break;
+					case 'Escape':
+					case 'Backspace':
+						this.clear();
+						break;
+				}
+			}
 		}
 	}
 
