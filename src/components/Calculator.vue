@@ -1,7 +1,7 @@
 <template>
 	<div class="calculator">
 		<div class="calculator__output" placeholder="0"> {{ firstValue || secondValue || 0 }} </div>
-		<button @click="clear" class="C operator">C</button>
+		<button @click="clear" class="C operator_light">C</button>
 		<button @click="handleOperatorClicked('%')" class="operator">%</button>
 		<button @click="handleOperatorClicked('/')" class="operator">/</button>
 		<button @click="handleNumberClicked(7)">7</button>
@@ -18,7 +18,7 @@
 		<button @click="handleOperatorClicked('+'); add" class="operator">+</button>
 		<button @click="handleNumberClicked(0)">0</button>
 		<button @click="handleNumberClicked('.')">.</button>
-		<button @click="handleEqualsInput" class="equal operator">=</button>
+		<button @click="handleEqualsInput" class="equal operator_light">=</button>
 	</div>
 </template>
 
@@ -64,7 +64,7 @@
 						this.secondValue *= this.firstValueAsNumber;
 						break;
 					case '%':
-						this.secondValue = this.firstValueAsNumber / 100;
+						this.secondValue = this.secondValue / 100;
 						break;
 					default:
 						this.secondValue = this.firstValueAsNumber;
@@ -74,7 +74,7 @@
 			handleOperatorClicked(operator) {
 				this.calculate();
 				this.operator = operator;
-				this.firstValue = ""
+				this.firstValue = ''
 			},
 
 			handleNumberClicked(number) {
@@ -114,13 +114,13 @@
 						this.handleOperatorClicked(event.key);
 						break;
 					case 'Enter':
-					case '=':
 						this.handleEqualsInput();
 						break;
 					case 'Escape':
 					case 'Backspace':
 						this.clear();
 						break;
+					
 				}
 			}
 		}
@@ -143,9 +143,10 @@
 		font-size: 20px;
 	}
 
-	button:active {
+	button:hover {
 		filter: brightness(0.9);
 	}
+
 	.calculator {
 		width: 300px;
 		height: 300px;
@@ -180,9 +181,14 @@
 		grid-column: 3 / 5;
 	}
 
-	.operator {
+	.operator,
+	.operator_light {
 		background-color: #9E55D7;
 		color: white;
+	}
+
+	.operator:focus {
+		background-color: #4d0981;
 	}
 
 </style>
