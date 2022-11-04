@@ -1,6 +1,6 @@
 <template>
 	<div class="calculator">
-		<div class="calculator__output" placeholder="0"> {{ secondValue || firstValue }}</div>
+		<div class="calculator__output" placeholder="0"> {{ secondValue || firstValue || 0 }} </div>
 		<button @click="clear" class="C operator">C</button>
 		<button @click="handleOperatorClicked('%')" class="operator">%</button>
 		<button @click="handleOperatorClicked('/')" class="operator">/</button>
@@ -18,7 +18,7 @@
 		<button @click="handleOperatorClicked('+'); add" class="operator">+</button>
 		<button @click="handleNumberClicked(0)">0</button>
 		<button @click="handleNumberClicked('.')">.</button>
-		<button @click="calculate" class="equal operator">=</button>
+		<button @click="handleEqualsInput" class="equal operator">=</button>
 	</div>
 </template>
 
@@ -29,19 +29,47 @@
 				firstValue: '',
 				secondValue: '',
 				operator: '',
-				operatorClicked: false
 			}
+		},
+
+		computed: {
+			firstValueAsNumber() {
+				return Number(this.firstValue)
+			},
 		},
 
 		methods: {
 			clear() {
 				this.firstValue = '';
 				this.secondValue = '';
+				this.operator = '';
 			},
 
+			calculate() {
+				switch(this.operator) {
+					case '+':
+						this.secondValue += this.firstValueAsNumber;
+						break;
+					case '-':
+						this.secondValue -= this.firstValueAsNumber;
+						break;
+					case '/':
+						this.secondValue /= this.firstValueAsNumber;
+						break;
+					case '*':
+						this.secondValue *= this.firstValueAsNumber;
+						break;
+					case '%':
+						// this.secondValue = Number(this.firstValue) / 100;
+					default:
+						this.secondValue = this.firstValueAsNumber;
+					}
+				},
+
 			handleOperatorClicked(operator) {
-			this.operator = operator;
-		},
+				//this.calculate();
+				this.operator = operator;
+			},
 
 			handleNumberClicked(number) {
 				let currentValue = this.operator ? 'secondValue' : 'firstValue'
@@ -51,35 +79,19 @@
 					}
 				}else {
 					this[currentValue] += number;
+					
 				}
-			}
-		},
+			},
 
-		add() {
-
-		},
-
-		minus(a, b) {
-			return a - b;
-		},
-
-		divide(a, b) {
-			return a / b;
-		},
-
-		multiply(a, b) {
-			return a * b
-		},
-
-		percentage(a) {
-			return a / 100;
-		},
-
-		calculate() {
-
-		},
-		
+			handleEqualsInput() {
+				this.calculate()
+				//this.firstValue = ''
+				//this.secondValue = ''
+				//this.operator = ''
+			},
+		}
 	}
+
 </script>
 
 <style scoped>
