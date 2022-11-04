@@ -1,6 +1,6 @@
 <template>
 	<div class="calculator">
-		<div class="calculator__output" placeholder="0"> {{ secondValue || firstValue || 0 }} </div>
+		<div class="calculator__output" placeholder="0"> {{ firstValue || secondValue || 0 }} </div>
 		<button @click="clear" class="C operator">C</button>
 		<button @click="handleOperatorClicked('%')" class="operator">%</button>
 		<button @click="handleOperatorClicked('/')" class="operator">/</button>
@@ -41,7 +41,7 @@
 		methods: {
 			clear() {
 				this.firstValue = '';
-				this.secondValue = '';
+				this.secondValue = 0;
 				this.operator = '';
 			},
 
@@ -67,27 +67,24 @@
 				},
 
 			handleOperatorClicked(operator) {
-				//this.calculate();
+				this.calculate();
 				this.operator = operator;
+				this.firstValue = ""
 			},
 
 			handleNumberClicked(number) {
-				let currentValue = this.operator ? 'secondValue' : 'firstValue'
-				if(number === ('.')) {
+				if (number === ('.')) {
 					if (!this.firstValue.includes('.')) {
-						this[currentValue] += number;
+						this.firstValue += number;
 					}
-				}else {
-					this[currentValue] += number;
-					
+				} else {
+					this.firstValue += number;
 				}
 			},
 
 			handleEqualsInput() {
 				this.calculate()
-				//this.firstValue = ''
-				//this.secondValue = ''
-				//this.operator = ''
+				this.firstValue = ''
 			},
 		}
 	}
