@@ -1,6 +1,6 @@
 <template>
 	<div class="converter">
-		<h1>Length Converter</h1>
+		<h1>Lengdekonverterer</h1>
 
 		<div class="converter__inner">
 			<div class="flex">
@@ -100,6 +100,7 @@
 
 	h1 {
 		display: block;
+		text-decoration: underline;
 	}
 
 	input {
