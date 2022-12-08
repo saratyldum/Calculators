@@ -74,11 +74,14 @@
 			handleOperatorClicked(operator) {
 				this.calculate();
 				this.operator = operator;
-				this.firstValue = ''
+				this.firstValue = '';
+				if(operator === '%') {
+					this.calculate();
+				}
 			},
 
 			handleNumberClicked(number) {
-				if (number === ('.')) {
+				if (number === '.') {
 					if (!this.firstValue.includes('.')) {
 						this.firstValue += number;
 					}
